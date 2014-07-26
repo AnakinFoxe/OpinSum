@@ -8,6 +8,8 @@ package edu.csupomona.nlp;
 
 import edu.csupomona.nlp.test.AspectDetector;
 import edu.csupomona.nlp.util.StanfordTools;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,14 +47,14 @@ public class OpinionSummarizer {
         switch (stanford.sentiment(sentence)) {
             case 0:
             case 1:
-                sentiment = "Negative";
+                sentiment = "negative";
                 break;
             case 2:
-                sentiment = "Neutral";
+                sentiment = "neutral";
                 break;
             case 3:
             case 4:
-                sentiment = "Positive";
+                sentiment = "positive";
                 break;
             default:
                 sentiment = "Cant Tell";
@@ -119,6 +121,21 @@ public class OpinionSummarizer {
                 }
             }
         }
+        
+        // write to files
+        String path = "./data/sentiment/";
+        for (String aspect : mapAspectSentiment.keySet()) {
+            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
+                String filename = path + aspect + "[" + sentiment + "].txt";
+                FileWriter fw = new FileWriter(filename);
+                try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
+                        bw.write(sentence + "\n");
+                    }
+                }
+            }
+        }
+        
     }
     
 }
