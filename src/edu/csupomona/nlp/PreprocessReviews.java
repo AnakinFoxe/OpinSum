@@ -53,6 +53,6 @@ public class PreprocessReviews extends FileProcessor {
         PreprocessReviews fp = new PreprocessReviews();
         
         fp.process("./data/reviews/raw", 
-                "./data/reviews/processed");
+                "./data/reviews/pre-processed");
     }
 }
