@@ -30,7 +30,7 @@ public class CoreferenceResolution {
 
         // read some text in the text variable
         String text = "";
-        FileReader fr = new FileReader("./data/reviews/pre-processed/nokia-lumia521-tmobile/3.txt");
+        FileReader fr = new FileReader("./data/reviews/pre-processed/nokia-lumia521-tmobile/0.txt");
         BufferedReader br = new BufferedReader(fr);
         String line;
         while ((line = br.readLine()) != null) {
