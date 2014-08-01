@@ -8,18 +8,28 @@ package edu.csupomona.nlp;
 
 import edu.csupomona.nlp.util.FileProcessor;
 import edu.csupomona.nlp.util.Preprocessor;
+import edu.csupomona.nlp.util.StanfordTools;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  *
  * @author Xing
  */
 public class PreprocessReviews extends FileProcessor {
+    
+    private StanfordTools stan;
+    
+    public PreprocessReviews() {
+        Properties props = new Properties();
+        props.put("annotators", "tokenize, ssplit");
+        stan = new StanfordTools(props);
+    }
     
     /**
      * Parse the file into a list of sentences
