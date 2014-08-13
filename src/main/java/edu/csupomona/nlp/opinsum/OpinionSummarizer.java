@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package edu.csupomona.nlp;
+package edu.csupomona.nlp.opinsum;
 
-import edu.csupomona.nlp.test.AspectDetector;
+import edu.csupomona.nlp.aspectdetector.AspectDetector;
 import edu.csupomona.nlp.util.StanfordTools;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
