@@ -43,7 +43,8 @@ public class OpinionSummarizer {
         return ad.classifyNB();
     }
     
-    public String sentiment(String sentence) {
+    
+    private String sentiment(String sentence) {
         String sentiment;
         switch (stanford.sentiment(sentence)) {
             case 0:
@@ -65,16 +66,8 @@ public class OpinionSummarizer {
         return sentiment;
     }
     
-    public void summarize() {
-        
-    }
-    
-    public static void main(String[] args) throws IOException {
-        OpinionSummarizer os = new OpinionSummarizer();
-        
-        // obtain the aspect <-> sentences mapping
-        HashMap<String, List<String>> mapAspectSents = os.detectAspect();
-        
+    public HashMap<String, HashMap<String, List<String>>> detectSentiment(
+        HashMap<String, List<String>> mapAspectSents) {
         // aspect <-> sentiment <-> sentences mapping
         HashMap<String, HashMap<String, List<String>>> mapAspectSentiment =
                 new HashMap<>();
@@ -94,7 +87,7 @@ public class OpinionSummarizer {
                 List<String> sentences;
                 
                 // compute sentiment
-                String sentiment = os.sentiment(sentence);
+                String sentiment = sentiment(sentence);
                 
                 // retrieve sentence list mapped to this sentiment
                 if (mapSentiSent.containsKey(sentiment))
@@ -116,6 +109,71 @@ public class OpinionSummarizer {
             mapAspectSentiment.put(aspect, mapSentiSent);    
         }
         
+        return mapAspectSentiment;
+    }
+    
+    
+    public void writeAspectSentiment(
+            HashMap<String, HashMap<String, List<String>>> mapAspectSentiment,
+            String outPath) 
+            throws IOException {
+        for (String aspect : mapAspectSentiment.keySet()) {
+            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
+                String filename = outPath + aspect + "[" + sentiment + "].txt";
+                FileWriter fw = new FileWriter(filename);
+                try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    for (String sentence : mapAspectSentiment
+                            .get(aspect).get(sentiment)) {
+                        bw.write(sentence + "\n");
+                    }
+                }
+            }
+        }
+    }
+    
+    private void useSubSum(
+            HashMap<String, HashMap<String, List<String>>> mapAspectSentiment,
+            String outPath) 
+            throws IOException {
+        for (String aspect : mapAspectSentiment.keySet()) {
+            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
+                List<String> sentences = mapAspectSentiment
+                        .get(aspect).get(sentiment);
+                
+                // generate summaries
+                SubSumGenericMDS ssg = new SubSumGenericMDS(sentences, 10);
+                ssg.assignScoreToSentences();
+                List<String> summaries = ssg.getCandidateSentences();
+                
+                // write summaries to files
+                String filename = outPath + aspect + "[" + sentiment + "].txt";
+                FileWriter fw = new FileWriter(filename);
+                try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    for (String summary : summaries)
+                        bw.write(summary);
+                }
+                
+            }
+        }
+    }
+    
+    public void summarize() {
+        
+    }
+    
+    public static void main(String[] args) throws IOException {
+        OpinionSummarizer os = new OpinionSummarizer();
+        
+        // obtain the aspect <-> sentences mapping
+        HashMap<String, List<String>> mapAspectSents = os.detectAspect();
+        
+        // obtain aspect <-> sentiment <-> sentence mapping
+        HashMap<String, HashMap<String, List<String>>> mapAspectSentiment
+                = os.detectSentiment(mapAspectSents);
+        
+        // write result as input files for summarization
+        os.writeAspectSentiment(mapAspectSentiment,
+                "./data/summaries/input/");
         
         // display
 //        for (String aspect : mapAspectSentiment.keySet()) {
@@ -128,36 +186,9 @@ public class OpinionSummarizer {
 //        }
         
         
-        // write to files
-        String path = "./data/summaries/input/";
-        for (String aspect : mapAspectSentiment.keySet()) {
-            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
-                String filename = path + aspect + "[" + sentiment + "].txt";
-                FileWriter fw = new FileWriter(filename);
-                try (BufferedWriter bw = new BufferedWriter(fw)) {
-                    for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
-                        bw.write(sentence + "\n");
-                    }
-                }
-            }
-        }
         
         // SubSum
-        for (String aspect : mapAspectSentiment.keySet()) {
-            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
-                List<String> sentences = mapAspectSentiment.get(aspect).get(sentiment);
                 
-                // generate summaries
-                SubSumGenericMDS ssg = new SubSumGenericMDS(sentences, 10);
-                ssg.assignScoreToSentences();
-                List<String> summaries = ssg.getCandidateSentences();
-                
-                // display summaries
-                for (String summary : summaries)
-                    System.out.println(aspect+"["+sentiment+"]"+summary);
-            }
-        }
-        
     }
     
 }
