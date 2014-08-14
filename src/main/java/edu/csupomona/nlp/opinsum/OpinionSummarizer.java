@@ -158,6 +158,11 @@ public class OpinionSummarizer {
     }
     
     public void summarize() {
+        // SubSum
+        
+        // Micropinion Generation
+        
+        // KEA
         
     }
     
