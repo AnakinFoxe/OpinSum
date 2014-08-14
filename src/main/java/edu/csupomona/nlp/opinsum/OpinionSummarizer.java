@@ -40,7 +40,7 @@ public class OpinionSummarizer {
     public HashMap<String, List<String>> detectAspect() throws IOException {
         ad.collectNGram(1);
         
-        return ad.testNB();
+        return ad.classifyNB();
     }
     
     public String sentiment(String sentence) {
@@ -107,6 +107,9 @@ public class OpinionSummarizer {
                 
                 // update the sentiment <-> sentences mapping
                 mapSentiSent.put(sentiment, sentences);
+                
+                // display progress
+                System.out.println(aspect + "[" + sentiment + "]" + sentence);
             }
             
             // update aspect <-> sentiment <-> sentences mapping
@@ -124,6 +127,21 @@ public class OpinionSummarizer {
 //            }
 //        }
         
+        
+        // write to files
+        String path = "./data/summaries/input/";
+        for (String aspect : mapAspectSentiment.keySet()) {
+            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
+                String filename = path + aspect + "[" + sentiment + "].txt";
+                FileWriter fw = new FileWriter(filename);
+                try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
+                        bw.write(sentence + "\n");
+                    }
+                }
+            }
+        }
+        
         // SubSum
         for (String aspect : mapAspectSentiment.keySet()) {
             for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
@@ -136,23 +154,9 @@ public class OpinionSummarizer {
                 
                 // display summaries
                 for (String summary : summaries)
-                    System.out.println("["+aspect+"]["+sentiment+"]"+summary);
+                    System.out.println(aspect+"["+sentiment+"]"+summary);
             }
         }
-        
-        // write to files
-//        String path = "./data/sentiment/";
-//        for (String aspect : mapAspectSentiment.keySet()) {
-//            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
-//                String filename = path + aspect + "[" + sentiment + "].txt";
-//                FileWriter fw = new FileWriter(filename);
-//                try (BufferedWriter bw = new BufferedWriter(fw)) {
-//                    for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
-//                        bw.write(sentence + "\n");
-//                    }
-//                }
-//            }
-//        }
         
     }
     
