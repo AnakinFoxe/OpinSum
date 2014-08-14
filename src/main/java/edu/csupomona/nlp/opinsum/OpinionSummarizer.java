@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import suk.code.SubjectiveLogic.MDS.SubSumGenericMDS;
 
 /**
  *
@@ -114,27 +115,44 @@ public class OpinionSummarizer {
         
         
         // display
+//        for (String aspect : mapAspectSentiment.keySet()) {
+//            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
+//                List<String> sentences = mapAspectSentiment.get(aspect).get(sentiment);
+//                for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
+//                    System.out.println(aspect + "[" + sentiment + "]::" + sentence);
+//                }
+//            }
+//        }
+        
+        // SubSum
         for (String aspect : mapAspectSentiment.keySet()) {
             for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
-                for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
-                    System.out.println(aspect + "[" + sentiment + "]::" + sentence);
-                }
+                List<String> sentences = mapAspectSentiment.get(aspect).get(sentiment);
+                
+                // generate summaries
+                SubSumGenericMDS ssg = new SubSumGenericMDS(sentences, 10);
+                ssg.assignScoreToSentences();
+                List<String> summaries = ssg.getCandidateSentences();
+                
+                // display summaries
+                for (String summary : summaries)
+                    System.out.println("["+aspect+"]["+sentiment+"]"+summary);
             }
         }
         
         // write to files
-        String path = "./data/sentiment/";
-        for (String aspect : mapAspectSentiment.keySet()) {
-            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
-                String filename = path + aspect + "[" + sentiment + "].txt";
-                FileWriter fw = new FileWriter(filename);
-                try (BufferedWriter bw = new BufferedWriter(fw)) {
-                    for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
-                        bw.write(sentence + "\n");
-                    }
-                }
-            }
-        }
+//        String path = "./data/sentiment/";
+//        for (String aspect : mapAspectSentiment.keySet()) {
+//            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
+//                String filename = path + aspect + "[" + sentiment + "].txt";
+//                FileWriter fw = new FileWriter(filename);
+//                try (BufferedWriter bw = new BufferedWriter(fw)) {
+//                    for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
+//                        bw.write(sentence + "\n");
+//                    }
+//                }
+//            }
+//        }
         
     }
     
