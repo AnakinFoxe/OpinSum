@@ -6,6 +6,7 @@
 
 package edu.csupomona.nlp.opinsum;
 
+import com.microgen.application.ApplicationMain;
 import edu.csupomona.nlp.aspectdetector.AspectDetector;
 import edu.csupomona.nlp.util.StanfordTools;
 import java.io.BufferedReader;
@@ -172,9 +173,12 @@ public class OpinionSummarizer {
         }
     }
     
-//    private void useMG(String inPath, String outPath) {
-//        
-//    }
+    private void useMG(String path) {
+        ApplicationMain am = new ApplicationMain();
+        
+        String[] args = {"-b", path};
+        am.start(args);
+    }
     
     public void summarize(String inPath, String outPath) 
             throws IOException {
@@ -182,8 +186,8 @@ public class OpinionSummarizer {
         useSubSum(inPath, outPath + "SubSum/");
         
         // Micropinion Generation
+        useMG("data/summaries");
         
-        // KEA
         
     }
     
