@@ -8,7 +8,11 @@ package edu.csupomona.nlp.opinsum;
 
 import edu.csupomona.nlp.aspectdetector.AspectDetector;
 import edu.csupomona.nlp.util.StanfordTools;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -131,34 +135,51 @@ public class OpinionSummarizer {
         }
     }
     
-    private void useSubSum(
-            HashMap<String, HashMap<String, List<String>>> mapAspectSentiment,
-            String outPath) 
+    private List<String> readText(File file) 
             throws IOException {
-        for (String aspect : mapAspectSentiment.keySet()) {
-            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
-                List<String> sentences = mapAspectSentiment
-                        .get(aspect).get(sentiment);
+        List<String> text = new ArrayList<>();
+        
+        FileReader fr = new FileReader(file);
+        try (BufferedReader br = new BufferedReader(fr)) {
+            String line;
+            while ((line = br.readLine()) != null) 
+                text.add(line);
+        }
+        
+        return text;
+    }
+    
+    private void useSubSum(String inPath, String outPath) 
+            throws IOException {
+        File[] files = new File(inPath).listFiles();
+        
+        for (File file : files) {
+            List<String> text = readText(file);
+            // generate summaries
+            SubSumGenericMDS ssg = new SubSumGenericMDS(text, 10);
+            ssg.assignScoreToSentences();
+            List<String> summaries = ssg.getCandidateSentences();
                 
-                // generate summaries
-                SubSumGenericMDS ssg = new SubSumGenericMDS(sentences, 10);
-                ssg.assignScoreToSentences();
-                List<String> summaries = ssg.getCandidateSentences();
-                
-                // write summaries to files
-                String filename = outPath + aspect + "[" + sentiment + "].txt";
-                FileWriter fw = new FileWriter(filename);
-                try (BufferedWriter bw = new BufferedWriter(fw)) {
-                    for (String summary : summaries)
-                        bw.write(summary);
-                }
-                
+            // write summaries to files
+            String filename = outPath + file.getName();
+            FileWriter fw = new FileWriter(filename);
+            try (BufferedWriter bw = new BufferedWriter(fw)) {
+                for (String summary : summaries)
+                    bw.write(summary);
             }
+                
+            
         }
     }
     
-    public void summarize() {
+//    private void useMG(String inPath, String outPath) {
+//        
+//    }
+    
+    public void summarize(String inPath, String outPath) 
+            throws IOException {
         // SubSum
+        useSubSum(inPath, outPath + "SubSum/");
         
         // Micropinion Generation
         
@@ -170,29 +191,18 @@ public class OpinionSummarizer {
         OpinionSummarizer os = new OpinionSummarizer();
         
         // obtain the aspect <-> sentences mapping
-        HashMap<String, List<String>> mapAspectSents = os.detectAspect();
-        
-        // obtain aspect <-> sentiment <-> sentence mapping
-        HashMap<String, HashMap<String, List<String>>> mapAspectSentiment
-                = os.detectSentiment(mapAspectSents);
-        
-        // write result as input files for summarization
-        os.writeAspectSentiment(mapAspectSentiment,
-                "./data/summaries/input/");
-        
-        // display
-//        for (String aspect : mapAspectSentiment.keySet()) {
-//            for (String sentiment : mapAspectSentiment.get(aspect).keySet()) {
-//                List<String> sentences = mapAspectSentiment.get(aspect).get(sentiment);
-//                for (String sentence : mapAspectSentiment.get(aspect).get(sentiment)) {
-//                    System.out.println(aspect + "[" + sentiment + "]::" + sentence);
-//                }
-//            }
-//        }
-        
-        
+//        HashMap<String, List<String>> mapAspectSents = os.detectAspect();
+//        
+//        // obtain aspect <-> sentiment <-> sentence mapping
+//        HashMap<String, HashMap<String, List<String>>> mapAspectSentiment
+//                = os.detectSentiment(mapAspectSents);
+//        
+//        // write result as input files for summarization
+//        os.writeAspectSentiment(mapAspectSentiment,
+//                "./data/summaries/input/");        
         
         // SubSum
+        os.summarize("./data/summaries/input/", "./data/summaries/output/");
                 
     }
     
