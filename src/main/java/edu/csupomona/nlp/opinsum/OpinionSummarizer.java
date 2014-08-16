@@ -183,7 +183,7 @@ public class OpinionSummarizer {
     public void summarize(String inPath, String outPath) 
             throws IOException {
         // SubSum
-        useSubSum(inPath, outPath + "SubSum/");
+//        useSubSum(inPath, outPath + "SubSum/");
         
         // Micropinion Generation
         useMG("data/summaries");
