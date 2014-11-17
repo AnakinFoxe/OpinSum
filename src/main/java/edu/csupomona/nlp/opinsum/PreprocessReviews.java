@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.csupomona.nlp;
+package edu.csupomona.nlp.opinsum;
 
 import edu.csupomona.nlp.util.FileProcessor;
 import edu.csupomona.nlp.util.Preprocessor;

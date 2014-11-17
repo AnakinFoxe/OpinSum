@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.csupomona.nlp;
+package edu.csupomona.nlp.util;
 
 import edu.csupomona.nlp.util.NGram;
 import edu.csupomona.nlp.util.Preprocessor;
