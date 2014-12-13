@@ -77,12 +77,20 @@ body {
   padding-bottom: 50px; }
 
 .modal-body {
-  border-bottom: none; }
+  z-index: 900;
+  border-bottom: none;
+  background: white; }
 
 .modal-body img {
   border-radius: 10px; }
 
 .modal-footer {
+  background: white; }
+
+.phone-description {
+  background: white; }
+
+#chart-wrapper {
   background: white; }
 
 .well {
@@ -132,3 +140,12 @@ img {
 
 .round {
   border-radius: 10px; }
+
+@media (min-width: 360px) and (max-width: 768px) {
+  #modal-image {
+    max-width: 100%;
+    height: 400px; }
+
+  #chart {
+    padding: 0;
+    margin: 0; } }
