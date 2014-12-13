@@ -1,5 +1,6 @@
 package edu.csupomona.nlp.opinsum.resource;
 
+import edu.csupomona.nlp.opinsum.model.AspectSentiment;
 import edu.csupomona.nlp.opinsum.model.Device;
 import edu.csupomona.nlp.opinsum.model.DeviceSummary;
 import edu.csupomona.nlp.opinsum.model.Sentence;
@@ -146,7 +147,7 @@ public class DeviceResource {
                 deviceSummary.setImgUrl(device.getImgUrl());
                 deviceSummary.setThumbnailUrl(device.getThumbnailUrl());
                 deviceSummary.setProductId(device.getProductId());
-                HashMap<String, List<Integer>> aspectSentiment = new HashMap<>();
+                List<AspectSentiment> aspectSentiments = new ArrayList<>();
                 for (Map.Entry<String, List<Integer>> entry : summaries.entrySet()) {
                     Integer pos = entry.getValue().get(0);
                     Integer neg = entry.getValue().get(1);
@@ -161,9 +162,12 @@ public class DeviceResource {
                         posNeg.add(0);
                         posNeg.add(0);
                     }
-                    aspectSentiment.put(entry.getKey(), posNeg);
+                    AspectSentiment aspectSentiment = new AspectSentiment();
+                    aspectSentiment.setName(entry.getKey());
+                    aspectSentiment.setSentiment(posNeg);
+                    aspectSentiments.add(aspectSentiment);
                 }
-                deviceSummary.setAspectSentiment(aspectSentiment);
+                deviceSummary.setAspectSentiment(aspectSentiments);
 
                 return deviceSummary;
             }

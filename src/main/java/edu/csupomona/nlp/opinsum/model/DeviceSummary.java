@@ -20,7 +20,7 @@ public class DeviceSummary {
 
     private String productId;
 
-    HashMap<String, List<Integer>> aspectSentiment;
+    List<AspectSentiment> aspectSentiment;
 
     public Long getId() {
         return id;
@@ -62,11 +62,11 @@ public class DeviceSummary {
         this.productId = productId;
     }
 
-    public HashMap<String, List<Integer>> getAspectSentiment() {
+    public List<AspectSentiment> getAspectSentiment() {
         return aspectSentiment;
     }
 
-    public void setAspectSentiment(HashMap<String, List<Integer>> aspectSentiment) {
+    public void setAspectSentiment(List<AspectSentiment> aspectSentiment) {
         this.aspectSentiment = aspectSentiment;
     }
 }
