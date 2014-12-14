@@ -41,7 +41,7 @@ public class RankServiceImpl implements RankService {
         for (String aspect : sents.keySet()) {
             List<String> sentList = sents.get(aspect);
 
-            SubSumGenericMDS ssg = new SubSumGenericMDS(sentList, 90);
+            SubSumGenericMDS ssg = new SubSumGenericMDS(sentList, 100);
             ssg.assignScoreToSentences();
             List<String> rankedSents = ssg.getCandidateSentences();
 
@@ -49,9 +49,10 @@ public class RankServiceImpl implements RankService {
             for (int idx = 0; idx < rankedSents.size(); ++idx) {
                 int rank = idx + 1;
 
+                String rankedSent = rankedSents.get(idx).trim();
                 // search for match
                 for (Sentence sentence : sentences)
-                    if (sentence.getProcSent().contains(rankedSents.get(idx))) {
+                    if (sentence.getProcSent().contains(rankedSent)) {
                         sentence.setRank(rank);
 
                         sentenceRepository.update(sentence);
