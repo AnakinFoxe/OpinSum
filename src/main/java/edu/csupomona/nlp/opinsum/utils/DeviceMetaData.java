@@ -22,7 +22,7 @@ public class DeviceMetaData {
             = Pattern.compile("<span id=\"productTitle\" class=\"a-size-large\">([\\w\\W]*?)</span>");
 
     private final Pattern PATT_IMG
-            = Pattern.compile("'colorImages': \\{ 'initial':.*?\"hisRes\":\"([\\w\\W]*?)\"");
+            = Pattern.compile("'colorImages': \\{ 'initial':.*?\"hiRes\":\"([\\w\\W]*?)\"");
 
     private final Pattern PATT_THUMB
             = Pattern.compile("'colorImages': \\{ 'initial':.*?\"thumb\":\"([\\w\\W]*?)\"");
@@ -41,20 +41,23 @@ public class DeviceMetaData {
 
             String line;
             while ((line = br.readLine()) != null) {
-                // match the name
-                Matcher nameMatcher = PATT_NAME.matcher(line);
-                if (nameMatcher.find())
-                    device.setName(nameMatcher.group(1).trim());
 
-                // match the main image url
-                Matcher imgMatcher = PATT_IMG.matcher(line);
-                if (imgMatcher.find())
-                    device.setImgUrl(imgMatcher.group(1).trim());
+                if (line.length() > 10) {
+                    // match the name
+                    Matcher nameMatcher = PATT_NAME.matcher(line);
+                    if (nameMatcher.find())
+                        device.setName(nameMatcher.group(1).trim());
 
-                // match the main thumbnail url
-                Matcher thumbMatcher = PATT_THUMB.matcher(line);
-                if (thumbMatcher.find())
-                    device.setThumbnailUrl(thumbMatcher.group(1).trim());
+                    // match the main image url
+                    Matcher imgMatcher = PATT_IMG.matcher(line);
+                    if (imgMatcher.find())
+                        device.setImgUrl(imgMatcher.group(1).trim());
+
+                    // match the main thumbnail url
+                    Matcher thumbMatcher = PATT_THUMB.matcher(line);
+                    if (thumbMatcher.find())
+                        device.setThumbnailUrl(thumbMatcher.group(1).trim());
+                }
             }
 
             return device;
