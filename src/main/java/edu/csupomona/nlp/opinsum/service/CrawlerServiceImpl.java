@@ -57,7 +57,7 @@ public class CrawlerServiceImpl implements CrawlerService {
                     for (String sentence : sentences) {
                         sentence = sentence.trim();
 
-                        if (sentence.length() > 10) {
+                        if (sentence.length() > 10 && sentence.length() < 2000) {
                             // preprocess the sentence
                             String procSent = Preprocessor.complex(sentence);
 

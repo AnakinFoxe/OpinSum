@@ -39,6 +39,8 @@ public class DeviceMetaData {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(url.openStream(), "UTF-8"));
 
+            Thread.sleep(3000); // wait 3s so the webpage could be fully load
+
             String line;
             while ((line = br.readLine()) != null) {
 
@@ -66,6 +68,8 @@ public class DeviceMetaData {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
