@@ -37,7 +37,7 @@ public class SentimentServiceImpl implements SentimentService {
         SentimentAnalyzer sa = new SentimentAnalyzer();
         sa.setNeedRetrain(false);
         sa.setNeedReselectFeature(false);
-        sa.setBasePath("/Users/xing/Downloads/FitnessTracker-master/data/sentiment/");
+        sa.setBasePath("/Users/xing/Downloads/FitnessTracker-master/data/sentiment/aclImdb/");
 
         try {
             // train the classifier

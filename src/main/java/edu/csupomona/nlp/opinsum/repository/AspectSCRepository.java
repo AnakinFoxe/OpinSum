@@ -12,4 +12,6 @@ public interface AspectSCRepository {
     public AspectSentenceCount saveOrUpdate(AspectSentenceCount asc);
 
     public List<AspectSentenceCount> loadAll();
+
+    public int deleteAll();
 }

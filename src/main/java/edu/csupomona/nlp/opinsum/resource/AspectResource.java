@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,19 +39,42 @@ public class AspectResource {
     @Path("/train")
     @GET
     public String loadAspectNGram() {
-        // temporary list
+        // initialize table AspectSentenceCount and AspectNGram
+        aspectService.initTraining();
+
+        // create aspect list and train the classifier
+        // aspect list
         List<String> aspects = new ArrayList<>();
+        aspects.add("audio");
         aspects.add("battery");
         aspects.add("camera");
+        aspects.add("network");
+        aspects.add("os");
+        aspects.add("price");
         aspects.add("screen");
-        aspects.add("process");
-        aspects.add("weight");
         aspects.add("size");
-        aspects.add("design");
-        aspects.add("sensor");
+
+        // aspect word list
+        List<List<String>> aspectWords = new ArrayList<>();
+        String[] audio = {"audio", "sound", "speaker", "microphone"};
+        String[] battery = {"battery", "life", "charge"};
+        String[] camera = {"camera", "shooter", "shutter", "aperture", "flash", "focus"};
+        String[] network = {"network", "lte", "4g", "3g", "2g", "nfc", "wifi"};
+        String[] os = {"os", "ios", "lollipop", "firmware", "android", "kitkat"};
+        String[] price = {"price", "cost", "budget", "usd", "dollar"};
+        String[] screen = {"screen", "display", "ppi", "resolution"};
+        String[] size = {"size", "inch", "dimension"};
+        aspectWords.add(Arrays.asList(audio));
+        aspectWords.add(Arrays.asList(battery));
+        aspectWords.add(Arrays.asList(camera));
+        aspectWords.add(Arrays.asList(network));
+        aspectWords.add(Arrays.asList(os));
+        aspectWords.add(Arrays.asList(price));
+        aspectWords.add(Arrays.asList(screen));
+        aspectWords.add(Arrays.asList(size));
 
         // call training service
-        aspectService.train(aspects);
+        aspectService.train(aspects, aspectWords);
 
         return "Aspect Identification prepared.";
     }

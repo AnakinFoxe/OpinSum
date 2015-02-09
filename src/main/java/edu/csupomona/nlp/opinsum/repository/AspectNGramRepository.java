@@ -12,4 +12,6 @@ public interface AspectNGramRepository {
     public AspectNGram saveOrUpdate(AspectNGram ngram);
 
     public List<AspectNGram> loadAll();
+
+    public int deleteAll();
 }

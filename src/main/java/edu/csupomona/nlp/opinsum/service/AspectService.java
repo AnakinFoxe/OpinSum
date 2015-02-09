@@ -10,10 +10,15 @@ import java.util.List;
 public interface AspectService {
 
     /**
+     * Initialize database for training
+     */
+    public void initTraining();
+
+    /**
      * Train the aspect identification classifier
      * @param aspects
      */
-    public void train(List<String> aspects);
+    public void train(List<String> aspects, List<List<String>> aspectWords);
 
     /**
      * Classify the list of sentences using aspect identification classifier

@@ -36,7 +36,17 @@ public class AspectServiceImpl implements AspectService {
     SentenceRepository sentenceRepository;
 
     @Transactional
-    public void train(List<String> aspects) {
+    public void initTraining() {
+        // remove all the entries in AspectSentenceCount
+        int deletedNum = aspectSCRepository.deleteAll();
+        System.out.println(deletedNum + " entries deleted from AspectSentenceCount");
+
+        deletedNum = aspectNGramRepository.deleteAll();
+        System.out.println(deletedNum + " entries deleted from AspectNGram");
+    }
+
+    @Transactional
+    public void train(List<String> aspects, List<List<String>> aspectWords) {
         AspectDetector ad = new AspectDetector();
 
         HashMap<String, List<Integer>> freqMap = new HashMap<>();
@@ -44,8 +54,8 @@ public class AspectServiceImpl implements AspectService {
         try {
             // compute frequency map and aspect sentences count
             // i.e. train the aspect classifier
-            Long[] aspectSentences = ad.parse(3, 1, aspects,
-                    "/Users/xing/Downloads/FitnessTracker-master/data/aspect/", freqMap);
+            Long[] aspectSentences = ad.parse(99, 1, aspects, aspectWords,
+                    "/Users/xing/Projects/Opinion_Mining/Data/amazon/smart_phones/pre-processed/", freqMap);
 
             // save aspect sentences count to database
             for (int idx = 0; idx < aspects.size(); ++idx) {

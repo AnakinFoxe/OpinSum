@@ -41,4 +41,11 @@ public class AspectNGramRepositoryImpl implements AspectNGramRepository {
             return null;
         }
     }
+
+    @Override
+    public int deleteAll() {
+        String qString = "delete from AspectNGram";
+        Query query = em.createQuery(qString);
+        return query.executeUpdate();
+    }
 }

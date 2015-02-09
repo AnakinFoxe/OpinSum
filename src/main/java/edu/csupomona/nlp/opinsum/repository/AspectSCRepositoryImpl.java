@@ -1,7 +1,6 @@
 package edu.csupomona.nlp.opinsum.repository;
 
 import edu.csupomona.nlp.opinsum.model.AspectSentenceCount;
-import edu.csupomona.nlp.opinsum.model.Device;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -62,5 +61,14 @@ public class AspectSCRepositoryImpl implements AspectSCRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public int deleteAll() {
+
+        String qString = "delete from AspectSentenceCount";
+        Query query = em.createQuery(qString);
+
+        return query.executeUpdate();
     }
 }
