@@ -193,11 +193,12 @@ public class DeviceResource {
      * @param aspect
      * @return
      */
-    @Path("/device/{deviceId}/{aspect}")
+    @Path("/device/{deviceId}/{aspect}/{limit}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Sentence> getSentenceList(@PathParam("deviceId") Long id,
-                                          @PathParam("aspect") String aspect) {
+    public List<String> getSentenceList(@PathParam("deviceId") Long id,
+                                          @PathParam("aspect") String aspect,
+                                          @PathParam("limit") Integer limit) {
         // find device
         Device device = deviceService.findDeviceById(id);
 
@@ -206,12 +207,15 @@ public class DeviceResource {
             List<Sentence> sentences = sentenceService.findAllSentencesByDevice(device);
 
             if (sentences != null) {
-                List<Sentence> selected = new ArrayList<>();
+                List<String> selected = new ArrayList<>();
                 for (Sentence sentence : sentences) {
                     if ((sentence.getAspect() != null)  // temporary
                             && (sentence.getRank() != null)
-                    && sentence.getAspect().equals(aspect))
-                        selected.add(sentence);
+                            && sentence.getAspect().equals(aspect)) {
+                        if ((limit > 0 && sentence.getRank() <= limit)
+                            || limit == 0)
+                            selected.add(sentence.getProcSent());
+                    }
                 }
 
                 return selected;
@@ -230,6 +234,28 @@ public class DeviceResource {
     public String addDevice(@PathParam("name") String name,
                           @PathParam("imgUrl") String imgUrl) {
         return (name + imgUrl);
+    }
+
+    @Path("/query")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Device> searchDevice(@QueryParam("keyword") String keyword,
+                                     @DefaultValue("smart_phone") @QueryParam("type") String type) {
+
+        List<Device> devices = deviceService.findAllDevices();
+
+        List<Device> selected = new ArrayList<>();
+
+        for (Device device : devices) {
+            if (device.getName().contains(keyword))
+                selected.add(device);
+        }
+
+        return selected;
+//        throw new NotFoundException(Response
+//                .status(Response.Status.NOT_FOUND)
+//                .entity("Device relates to " + keyword + " is not found")
+//                .build());
     }
 
 }

@@ -22,11 +22,16 @@ public class RankServiceImpl implements RankService {
 
     @Transactional
     public void rank(List<Sentence> sentences) {
+        rankWithinSentiment(sentences, "positive");
+        rankWithinSentiment(sentences, "negative");
+    }
+
+    private void rankWithinSentiment(List<Sentence> sentences, String sentiment) {
         // create pure sentence list
         HashMap<String, List<String>> sents = new HashMap<>();
         for (Sentence sentence : sentences) {
             String aspect = sentence.getAspect();
-            if (!aspect.equals("others")) {
+            if (!aspect.equals("others") && sentence.getSentiment().equals(sentiment)) {
                 List<String> sentList;
                 if (sents.containsKey(aspect))
                     sentList = sents.get(aspect);
