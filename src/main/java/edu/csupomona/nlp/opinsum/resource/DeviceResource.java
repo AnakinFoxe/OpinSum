@@ -151,6 +151,13 @@ public class DeviceResource {
                 for (Map.Entry<String, List<Integer>> entry : summaries.entrySet()) {
                     Integer pos = entry.getValue().get(0);
                     Integer neg = entry.getValue().get(1);
+
+                    // record the counts
+                    List<Integer> posNegCounts = new ArrayList<>();
+                    posNegCounts.add(pos);
+                    posNegCounts.add(neg);
+
+                    // convert to percentage
                     Integer sum = pos + neg;
                     List<Integer> posNeg = new ArrayList<>();
                     if (sum > 0) {
@@ -164,6 +171,7 @@ public class DeviceResource {
                     }
                     AspectSentiment aspectSentiment = new AspectSentiment();
                     aspectSentiment.setName(entry.getKey());
+                    aspectSentiment.setSentimentCounts(posNegCounts);
                     aspectSentiment.setSentiment(posNeg);
                     aspectSentiments.add(aspectSentiment);
                 }

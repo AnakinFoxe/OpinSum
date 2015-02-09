@@ -10,6 +10,10 @@ import java.util.List;
 public class AspectSentiment {
     private String name;
 
+    // counts of polarities
+    private List<Integer> sentimentCounts;
+
+    // percentage of polarities
     private List<Integer> sentiment;
 
     public String getName() {
@@ -18,6 +22,14 @@ public class AspectSentiment {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Integer> getSentimentCounts() {
+        return sentimentCounts;
+    }
+
+    public void setSentimentCounts(List<Integer> sentimentCounts) {
+        this.sentimentCounts = sentimentCounts;
     }
 
     public List<Integer> getSentiment() {

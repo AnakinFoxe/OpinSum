@@ -20,6 +20,7 @@ public class DeviceSummary {
 
     private String productId;
 
+    // percentage of positive vs. negative counts
     List<AspectSentiment> aspectSentiment;
 
     public Long getId() {
