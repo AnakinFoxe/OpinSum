@@ -16,6 +16,9 @@ public class AspectSentiment {
     // percentage of polarities
     private List<Integer> sentiment;
 
+    // summaries
+    private List<List<String>> summaries;
+
     public String getName() {
         return name;
     }
@@ -38,5 +41,13 @@ public class AspectSentiment {
 
     public void setSentiment(List<Integer> sentiment) {
         this.sentiment = sentiment;
+    }
+
+    public List<List<String>> getSummaries() {
+        return summaries;
+    }
+
+    public void setSummaries(List<List<String>> summaries) {
+        this.summaries = summaries;
     }
 }

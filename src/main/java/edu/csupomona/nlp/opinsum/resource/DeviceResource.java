@@ -116,14 +116,16 @@ public class DeviceResource {
             List<Sentence> sentences = sentenceService.findAllSentencesByDevice(device);
 
             if (sentences != null) {
-                HashMap<String, List<Integer>> summaries = new HashMap<>();
+                HashMap<String, List<Integer>> sentiments = new HashMap<>();
+                HashMap<String, List<List<String>>> summaries = new HashMap<>();
                 for (Sentence sentence : sentences) {
                     String aspect = sentence.getAspect();
                     String sentiment = sentence.getSentiment();
                     if ((aspect != null) && (sentiment != null) && (!aspect.equals("others"))) {
+                        // prepare for aspect and sentiment results
                         List<Integer> posNeg;
-                        if (summaries.containsKey(aspect))
-                            posNeg = summaries.get(aspect);
+                        if (sentiments.containsKey(aspect))
+                            posNeg = sentiments.get(aspect);
                         else {
                             posNeg = new ArrayList<>();
                             posNeg.add(new Integer(0)); // for positive
@@ -131,13 +133,37 @@ public class DeviceResource {
                         }
 
 
-                        if (sentiment.equals("positive"))
+                        if (sentiment.equals("positive")) {
                             posNeg.set(0, posNeg.get(0) + 1);
-                        else
+                        }
+                        else {
                             posNeg.set(1, posNeg.get(1) + 1);
+                        }
 
-                        summaries.put(aspect, posNeg);
+                        sentiments.put(aspect, posNeg);
+
+                        // prepare for summaries (ranked sentences)
+                        Integer rank = sentence.getRank();
+                        if (rank != null && rank <= 3) {
+                            List<List<String>> summariesForSentiment;
+                            if (summaries.containsKey(aspect))
+                                summariesForSentiment = summaries.get(aspect);
+                            else {
+                                summariesForSentiment = new ArrayList<>();
+                                summariesForSentiment.add(new ArrayList<String>()); // for positive sentences
+                                summariesForSentiment.add(new ArrayList<String>()); // for negative sentences
+                            }
+
+                            if (sentiment.equals("positive"))
+                                summariesForSentiment.get(0).add(sentence.getProcSent());
+                            else
+                                summariesForSentiment.get(1).add(sentence.getProcSent());
+
+                            summaries.put(aspect, summariesForSentiment);
+                        }
                     }
+
+
                 }
 
                 // convert to DeviceSummary
@@ -148,7 +174,8 @@ public class DeviceResource {
                 deviceSummary.setThumbnailUrl(device.getThumbnailUrl());
                 deviceSummary.setProductId(device.getProductId());
                 List<AspectSentiment> aspectSentiments = new ArrayList<>();
-                for (Map.Entry<String, List<Integer>> entry : summaries.entrySet()) {
+                for (Map.Entry<String, List<Integer>> entry : sentiments.entrySet()) {
+                    String aspect = entry.getKey();
                     Integer pos = entry.getValue().get(0);
                     Integer neg = entry.getValue().get(1);
 
@@ -170,9 +197,12 @@ public class DeviceResource {
                         posNeg.add(0);
                     }
                     AspectSentiment aspectSentiment = new AspectSentiment();
-                    aspectSentiment.setName(entry.getKey());
+                    aspectSentiment.setName(aspect);
                     aspectSentiment.setSentimentCounts(posNegCounts);
                     aspectSentiment.setSentiment(posNeg);
+
+                    if (summaries.containsKey(aspect))
+                        aspectSentiment.setSummaries(summaries.get(aspect));
                     aspectSentiments.add(aspectSentiment);
                 }
                 deviceSummary.setAspectSentiment(aspectSentiments);
@@ -247,7 +277,7 @@ public class DeviceResource {
         List<Device> selected = new ArrayList<>();
 
         for (Device device : devices) {
-            if (device.getName().contains(keyword))
+            if (device.getName().toLowerCase().contains(keyword.toLowerCase()))
                 selected.add(device);
         }
 
