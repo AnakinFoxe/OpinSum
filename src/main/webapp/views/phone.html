@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="panel panel-default animated slideInDown">
+          <div class="panel-heading text-center">
+                <h4>{{phone.name}}</h4>
+          </div>
+          <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                        <img ng-src="{{phone.imgUrl}}" class="img-responsive center-block  animated zoomIn">
+                        <br>
+                        <p></p>
+                    </div>
+                    <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                        <highcharts data=phone.aspectSentiment></highcharts>
+                        <ul ng-bind-html="description" class="text-left list-unstyled"></ul>
+                    </div>
+                </div>
+          </div>
+    </div>
+</div>

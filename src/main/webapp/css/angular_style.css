@@ -1,0 +1,78 @@
+@import url(http://fonts.googleapis.com/css?family=Dosis);
+body {
+  padding-top: 30px;
+  background: #cedbe9;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #cedbe9 0%, #aac5de 14%, #6199c7 31%, #419ad6 56%, #4bb8f0 71%, #3a8bc2 86%, #26558b 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cedbe9), color-stop(14%, #aac5de), color-stop(31%, #6199c7), color-stop(56%, #419ad6), color-stop(71%, #4bb8f0), color-stop(86%, #3a8bc2), color-stop(100%, #26558b));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #cedbe9 0%, #aac5de 14%, #6199c7 31%, #419ad6 56%, #4bb8f0 71%, #3a8bc2 86%, #26558b 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #cedbe9 0%, #aac5de 14%, #6199c7 31%, #419ad6 56%, #4bb8f0 71%, #3a8bc2 86%, #26558b 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #cedbe9 0%, #aac5de 14%, #6199c7 31%, #419ad6 56%, #4bb8f0 71%, #3a8bc2 86%, #26558b 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #cedbe9 0%, #aac5de 14%, #6199c7 31%, #419ad6 56%, #4bb8f0 71%, #3a8bc2 86%, #26558b 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cedbe9', endColorstr='#26558b',GradientType=0 );
+  /* IE6-9 */
+  background-attachment: fixed;
+  height: 100%; }
+
+.panel-footer {
+  height: 50px; }
+
+ul li {
+  font-family: "Dosis", sans-serif;
+  font-size: 16px; }
+  ul li .fa {
+    color: #26558b; }
+
+.panel-heading h4 {
+  font-family: "Dosis";
+  font-size: 20px;
+  font-weight: bold;
+  color: #26558b; }
+
+.panel-body p {
+  font-family: "Dosis";
+  font-size: 18px; }
+
+.modal-body {
+  height: 70%;
+  overflow: scroll; }
+
+.btn-custom {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 3px 2px #666666;
+  -moz-box-shadow: 0px 3px 2px #666666;
+  box-shadow: 0px 3px 2px #666666;
+  font-family: Georgia;
+  color: white;
+  font-size: 15px;
+  padding: 10px 15px 10px 15px;
+  text-decoration: none;
+  border: none; }
+
+.btn-custom:hover {
+  color: white;
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #3cb0fd);
+  background-image: -moz-linear-gradient(top, #3498db, #3cb0fd);
+  background-image: -ms-linear-gradient(top, #3498db, #3cb0fd);
+  background-image: -o-linear-gradient(top, #3498db, #3cb0fd);
+  background-image: linear-gradient(to bottom, #3498db, #3cb0fd);
+  text-decoration: none; }
+
+.img-scale-down, .panel img.img-responsive, .modal-body img {
+  max-width: 100%;
+  height: 250px; }
