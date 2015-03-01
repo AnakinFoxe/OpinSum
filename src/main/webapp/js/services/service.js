@@ -1,6 +1,6 @@
 var aspectServices = angular.module("aspectServices", []);
 
-aspectServices.factory("phonesService",["$http","$q", function($http, $q){
+aspectServices.factory("PhonesService",["$http","$q", function($http, $q){
 	var mService = {};
 	mService.getPhones = function(urlString, searchString){
 		var state = $q.defer();
@@ -23,7 +23,7 @@ aspectServices.factory("phonesService",["$http","$q", function($http, $q){
 
 }]);
 
-aspectServices.factory("phoneService",["$http","$q",function($http, $q){
+aspectServices.factory("PhoneService",["$http","$q",function($http, $q){
 	var mService = {};
 	mService.getPhone = function(urlString){
 		var phone = $q.defer();
@@ -36,4 +36,9 @@ aspectServices.factory("phoneService",["$http","$q",function($http, $q){
 
 	return mService;
 
-}])
+}]);
+
+aspectServices.service("ApplicationUserState",function(){
+    this.firstStartApp = true;
+});
+

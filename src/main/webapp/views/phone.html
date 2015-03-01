@@ -1,14 +1,17 @@
 <div class="row">
-    <div class="panel panel-default animated slideInDown">
-          <div class="panel-heading text-center">
-                <h4>{{phone.name}}</h4>
+    <div class="panel panel-default">
+          <div class="panel-heading">
+              <div class="clearfix">
+                <a class="pull-left btn btn-default btn-circle" ng-href="#/phones"><i class="fa fa-sign-out fa-flip-horizontal"></i></a>
+                <h4 class="text-center">{{phone.name}}</h4>
+              </div>
           </div>
           <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
                         <img ng-src="{{phone.imgUrl}}" class="img-responsive center-block  animated zoomIn">
                         <br>
-                        <p></p>
+                        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo odio, architecto quod repellendus dignissimos tempore perspiciatis aliquam distinctio ut officia modi expedita impedit, aliquid, beatae a dolorem ducimus? Tempore, cupiditate.</p> -->
                     </div>
                     <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
                         <highcharts data=phone.aspectSentiment></highcharts>

@@ -2,6 +2,9 @@ var aspectApp = angular.module('Aspect', ['ngRoute','aspectControllers','highcha
 
 aspectApp.config(['$routeProvider',function($routeProvider){
 	$routeProvider.
+		when('/intro',{
+			templateUrl: 'views/intro.html'
+		}).
 		when('/phones',{
 			templateUrl: 'views/phones.html',
 			controller: 'PhoneListController'
@@ -11,6 +14,6 @@ aspectApp.config(['$routeProvider',function($routeProvider){
 			controller: 'PhoneController'
 		}).
 		otherwise({
-			redirectTo: '/phones'
+			redirectTo: '/intro'
 		});
 }]);

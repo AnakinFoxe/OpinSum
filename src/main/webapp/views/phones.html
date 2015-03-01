@@ -1,27 +1,46 @@
 <div class="row">
-            <form class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well text-center" ng-submit="submit()">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Perform Your Search ... " name="text" ng-model="text">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><i class="fa fa-search fa-lg"></i>
-                        </button>
-                    </div>
-                </div>
+   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+         <!-- Brand and toggle get grouped for better mobile display -->
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ng-href="#/intro">Aspect Detector</a>
+         </div>
+         <!-- Collect the nav links, forms, and other content for toggling -->
+         <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <form class="navbar-form navbar-right" ng-submit="submit()">
+               <div ng-class="{'slideInDown animated':showSearchBoxDropDown}">
+                  <div class="input-group stylish-input-group">
+                     <input type="text" class="form-control" placeholder="iPhone 5 ..." name="text" ng-model="text" size="40">
+                     <span class="input-group-addon">
+                     <button type="submit"><span class="glyphicon glyphicon-search"></span>
+                     </button>
+                     </span>
+                  </div>
+               </div>
             </form>
-        </div>
-        <div class="row" ng-repeat="array in arrayOfPhone">
-
-            <div ng-repeat="phone in array" class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-                <div class="panel panel-default text-center">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{phone.name}}</h3>
-                    </div>
-                    <div class="panel-body">
-                        <img ng-src="{{phone.imgUrl}}" class="img-responsive center-block">
-                    </div>
-                    <div class="panel-footer">
-                        <a href="#/phones/{{phone.id}}" class="btn-custom ViewProduct">View Product</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+         </div>
+         <!-- /.navbar-collapse -->
+      </div>
+   </nav>
+</div>
+<div class="row" ng-repeat="array in arrayOfPhone" style="padding-top:20px">
+   <div ng-repeat="phone in array" class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+      <div class="panel panel-default text-center">
+         <div class="panel-heading">
+            <h3 class="panel-title">{{phone.name}}</h3>
+         </div>
+         <div class="panel-body">
+            <img ng-src="{{phone.imgUrl}}" class="img-responsive center-block">
+         </div>
+         <div class="panel-footer">
+            <a href="#/phones/{{phone.id}}" class="btn-custom ViewProduct">View Product</a>
+         </div>
+      </div>
+   </div>
+</div>
